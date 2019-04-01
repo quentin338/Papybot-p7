@@ -34,18 +34,9 @@ def removing_stop_words(user_input: str) -> str:
     return " ".join(scraped)
 
 
-def getting_numero(user_input: str) -> list:
-    numbers_list = []
-    for word in user_input.split():
-        if word.isdigit():
-            numbers_list.append(word)
-
-    return numbers_list
-
-
 def refine_with_verbs(user_input: str) -> str:
-    # We remove the last two words in case there is a verb AFTER the address
-    for i, word in enumerate(user_input.split()[:-2]):
+    # We remove the last word in case there is a verb AFTER the address
+    for i, word in enumerate(user_input.split()[:-1]):
         for verb in VERBS:
             if verb in word:
                 return " ".join(user_input.split()[i + 1:])

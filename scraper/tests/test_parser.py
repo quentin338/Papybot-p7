@@ -1,5 +1,5 @@
 from scraper.parser import (removing_stop_words, user_input_in_lowercase,
-                            getting_numero, removing_non_alnum, refine_with_verbs)
+                            removing_non_alnum, refine_with_verbs)
 
 
 class TestScraper:
@@ -17,12 +17,5 @@ class TestScraper:
     def test_removing_stop_words(self):
         assert removing_stop_words(self.ex_input_4) == "33 rue Bisounours"
 
-    def test_getting_numero(self):
-        assert getting_numero(self.ex_input_4) == ['33']
-
     def test_refine_with_verbs(self):
         assert refine_with_verbs(self.ex_input) == "du Stade de France à Paris !"
-
-
-# def removing_stop_words(args):
-#     return "args"
