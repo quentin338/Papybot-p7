@@ -54,4 +54,7 @@ STOP_WORDS = ['a', 'abord', 'absolument', 'afin', 'ah', 'ai', 'aie', 'ailleurs',
               'unique', 'uniques', 'uns', 'v', 'va', 'vais', 'vas', 'vers', 'via', 'vif', 'vifs', 'vingt', 'vivat',
               'vive', 'vives', 'vlan', 'voici', 'voilà', 'vont', 'vos', 'votre', 'vous', 'vous-mêmes', 'vu', 'vé',
               'vôtre', 'vôtres', 'w', 'x', 'y', 'z', 'zut', 'à', 'â', 'ça', 'ès', 'étaient', 'étais', 'était', 'étant',
-              'été', 'être', 'ô', "bonjour", "salut", "hello", "bonsoir", "adresse"]
+              'été', 'être', 'ô', "bonjour", "salut", "hello", "bonsoir", "adresse", "n°", "numéro", "numero",
+              "plait", "plaît"]
+
+VERBS = "cherch indiqu trouv sav conn montr localis point".split()

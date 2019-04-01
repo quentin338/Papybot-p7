@@ -1,9 +1,12 @@
-from stop_words import STOP_WORDS
+from stop_words import STOP_WORDS, VERBS
 
 examples = ["Salut ! Je ne sais pas vous mais je veux tout connaître du Stade de France à Paris !",
             "1, avenue du Général Leclerc à Bordeaux",
             "Salut GrandPy ! Est-ce que tu connais l'adresse d'OpenClassrooms ?",
-            "Bonjour je veux savoir l'adresse du 13 rue des Bisounours à Paris, merci Papybot."]
+            "Bonjour je veux savoir l'adresse du 13 rue des Bisounours à Paris, merci Papybot.",
+            "Salut grandpy! Comment s'est passé ta soirée avec Madame Pahud hier soir? Au fait, pendant que j'y pense,"
+            " pourrais-tu m'indiquer où se trouve le musée d'art et d'histoire de Fribourg, s'il te plaît?",
+            "le 12 rue du Pigeon, je ne sais pas si tu connais ?"]
 
 
 def user_input_in_lowercase(user_input: str) -> str:
@@ -31,20 +34,41 @@ def removing_stop_words(user_input: str) -> str:
     return " ".join(scraped)
 
 
-def getting_numero(string) -> list:
+def getting_numero(user_input: str) -> list:
     numbers_list = []
-    for word in string.split():
+    for word in user_input.split():
         if word.isdigit():
             numbers_list.append(word)
 
     return numbers_list
 
 
-for example in examples:
-    a = user_input_in_lowercase(example)
-    print(a)
-    a = removing_non_alnum(a)
-    print(a)
-    a = removing_stop_words(a)
-    print(a)
-# print(getting_numero(ex_input_2))
+def refine_with_verbs(user_input: str) -> str:
+    # We remove the last two words in case there is a verb AFTER the address
+    for i, word in enumerate(user_input.split()[:-2]):
+        for verb in VERBS:
+            if verb in word:
+                return " ".join(user_input.split()[i + 1:])
+
+    return user_input
+
+
+def main(example):
+        test_string = user_input_in_lowercase(example)
+        print(f'LOWERCASE : {test_string}')
+        test_string = removing_non_alnum(test_string)
+        print(f'ALPHANUM  : {test_string}')
+        test_string = removing_stop_words(test_string)
+        print(f'STOPWORDS : {test_string}')
+        test_string = refine_with_verbs(test_string)
+        print(f'VERBS     : {test_string}')
+
+        print()
+
+    # a = getting_numero(a)
+    # print(a)
+
+
+if __name__ == '__main__':
+    for example in examples:
+        main(example)
