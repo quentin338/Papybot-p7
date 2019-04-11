@@ -57,4 +57,4 @@ STOP_WORDS = ['a', 'abord', 'absolument', 'afin', 'ah', 'ai', 'aie', 'ailleurs',
               'été', 'être', 'ô', "bonjour", "salut", "hello", "bonsoir", "adresse", "n°", "numéro", "numero",
               "plait", "plaît"]
 
-VERBS = "cherch indiqu trouv sav conn montr localis point".split()
+VERBS = "cherch indiqu trouv sav conn montr localis point situ".split()

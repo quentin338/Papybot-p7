@@ -1,8 +1,10 @@
+import pytest
+
 from scraper.parser import (removing_stop_words, user_input_in_lowercase,
                             removing_non_alnum, refine_with_verbs)
 
 
-class TestScraper:
+class TestParser:
     ex_input = "salut ! Je ne sais pas vous mais je veux tout connaître du Stade de France à Paris !"
     ex_input_2 = "13, rue du Temple à Bordeaux"
     ex_input_3 = "TrolOloL TROLOLOL trololol"
@@ -10,6 +12,10 @@ class TestScraper:
 
     def test_user_input_in_lowercase(self):
         assert user_input_in_lowercase(self.ex_input_3) == "trololol trololol trololol"
+
+    def test_user_input_in_lowercase_raise_attributeerror(self):
+        with pytest.raises(AttributeError):
+            user_input_in_lowercase([1, 2, 3])
 
     def test_removing_non_alnum(self):
         assert removing_non_alnum(self.ex_input_2) == "13  rue du Temple à Bordeaux"
