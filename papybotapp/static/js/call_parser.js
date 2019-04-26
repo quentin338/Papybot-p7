@@ -1,5 +1,3 @@
-// Exécute un appel AJAX POST
-// Prend en paramètres l'URL cible, la donnée à envoyer et la fonction callback appelée en cas de succès
 function ajaxPost(url, data, callback) {
     var req = new XMLHttpRequest();
     req.open("POST", url);
@@ -24,10 +22,8 @@ form.addEventListener("submit", function (e) {
     e.preventDefault();
 
     let form = new FormData();
-    // let usrInput = e.target.elements.input.value;
     form.append("query", e.target.elements.input.value);
 
-    console.log(e.target.elements.input.value);
     ajaxPost("/parser/", form, function (response) {
         response = JSON.parse(response);
 

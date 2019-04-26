@@ -131,11 +131,4 @@ def main_func(example):
 
 if __name__ == '__main__':
     pprint(main_func(examples[4]), width=200)
-    # pprint(get_article_infos(5091748))
-    # print(get_article_infos(99999999))
-    # get_page_id(48.8747265, 2.3505517)
-    # address_lat, address_lng = 46.8077191, 7.159642
-    # r = session.get(API_URL.format(address_lat, address_lng)).json()
-    #
-    # print(page_id)
 

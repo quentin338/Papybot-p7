@@ -1,10 +1,8 @@
 import logging
-from pprint import *
 
 import googlemaps
 
-API_KEY = "AIzaSyBMKnBfvBZdbejSYcP0uvMzhC2cKSkXcvc"
-address_user_input = "Openclassrooms à Paris"
+from .CONSTANTS import GMAPS_API_KEY as API_KEY
 
 
 def get_address_coordinates(address: str):
@@ -32,4 +30,4 @@ def get_address_coordinates(address: str):
 
 
 if __name__ == '__main__':
-    print(get_address_coordinates(address_user_input))
+    pass

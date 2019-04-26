@@ -14,9 +14,7 @@ def index():
 @app.route('/parser/', methods=["POST"])
 def test():
     if request.method == "POST":
-        print(request.form["query"])
         results = main_func(request.form["query"])
-        # return f'{results["address"]}, {results["coords"]}, {results["url"]}, {results["content"]}'
         return jsonify(results)
 
     return "Error in test() views.py"
