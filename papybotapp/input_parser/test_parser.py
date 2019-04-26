@@ -1,8 +1,8 @@
 import pytest
 
-from input_parser.string_parser import (removing_stop_words, user_input_in_lowercase,
-                                        removing_non_alnum, refine_with_verbs,
-                                        removing_remaining_verbs)
+from papybotapp.input_parser.string_parser import (removing_stop_words, user_input_in_lowercase,
+                                                   removing_non_alnum, refine_with_verbs,
+                                                   removing_remaining_verbs)
 
 
 class TestParser:

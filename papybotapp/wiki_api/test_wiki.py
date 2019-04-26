@@ -1,6 +1,4 @@
-import pytest
-
-from wiki_api.wiki_geodata import get_page_id, get_article_content
+from papybotapp.wiki_api.wiki_geodata import get_page_id, get_article_infos
 
 
 class TestWikiApi:
@@ -45,7 +43,7 @@ class TestWikiApi:
 
         monkeypatch.setattr('requests.get', mock_requests)
 
-        assert get_page_id(10, 10) is None
+        assert get_page_id(10, 10) == 0
 
     def test_page_id_string_input(self, monkeypatch):
         class MockRequestsGet:
@@ -60,46 +58,39 @@ class TestWikiApi:
 
         monkeypatch.setattr('requests.get', mock_requests)
 
-        assert get_page_id("string", "string") is None
+        assert get_page_id("string", "string") == 0
 
     # get_article_content()
     def test_get_article_content_code_ok(self, monkeypatch):
         class MockRequestsGet:
             def __init__(self, url, params):
-                pass
+                self.status_code = 200
 
             def json(self):
                 return {
                     'query': {
                         'pages': [{
-                            'revisions': [{
-                                'content': "Wiki content !"
+                                'extract': 'Wiki content !',
+                                'fullurl': 'https://www.python.org'
                             }]
-                        }]
                     }
                 }
 
-        mock_requests = MockRequestsGet
-        mock_requests.status_code = 200
+        monkeypatch.setattr('requests.get', MockRequestsGet)
 
-        monkeypatch.setattr('requests.get', mock_requests)
-
-        assert get_article_content(120) == "Wiki content !"
+        assert get_article_infos(120) == {
+            'url': 'https://www.python.org',
+            'content': 'Wiki content !'
+        }
 
     def test_get_article_content_code_not_ok(self, monkeypatch):
         class MockRequestsGet:
             def __init__(self, url, params):
-                pass
+                self.status_code = 404
 
-            def json(self):
-                return {'error': 404}
+        monkeypatch.setattr('requests.get', MockRequestsGet)
 
-        mock_requests = MockRequestsGet
-        mock_requests.status_code = 404
-
-        monkeypatch.setattr('requests.get', mock_requests)
-
-        assert get_article_content(120) == ""
+        assert get_article_infos(120) == {}
 
     def test_get_article_content_key_error(self, monkeypatch):
         class MockRequestsGet:
@@ -107,11 +98,11 @@ class TestWikiApi:
                 pass
 
             def json(self):
-                return {'error': 'KeyError'}
+                return {}
 
         mock_requests = MockRequestsGet
         mock_requests.status_code = 200
 
         monkeypatch.setattr('requests.get', mock_requests)
 
-        assert get_article_content("string") == ""
+        assert get_article_infos("string") == {}

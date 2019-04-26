@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+
+<body>
+    <form>
+        <p>
+            <label for="input">Votre recherche :</label>
+            <input type="text" id="input" name="input">
+            <input type="submit" value="Go PapyBot !">
+        </p>
+
+    </form>
+
+
+    <p id="results"></p>
+    <p id="url"></p>
+
+
+    <script src="{{ url_for('static', filename='js/call_parser.js') }}"></script>
+</body>
+
+</html>

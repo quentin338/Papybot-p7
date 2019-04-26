@@ -1,4 +1,4 @@
-from stop_words import STOP_WORDS, VERBS
+from papybotapp.stop_words import STOP_WORDS, VERBS
 
 examples = ["Salut ! Je ne sais pas vous mais je veux tout connaître du Stade de France à Paris !",
             "1, avenue du Général Leclerc à Bordeaux",

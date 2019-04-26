@@ -1,6 +1,4 @@
-import pytest
-
-from google_maps.gmaps_geocode import get_address_coordinates
+from papybotapp.google_maps import get_address_coordinates
 
 
 def test_get_address_coordinates(monkeypatch):
@@ -10,6 +8,7 @@ def test_get_address_coordinates(monkeypatch):
 
         def geocode(self, address):
             return [{
+                'formatted_address': "Clean address",
                 'geometry': {
                     'location': {
                              'lat': 100,
@@ -20,7 +19,11 @@ def test_get_address_coordinates(monkeypatch):
 
     monkeypatch.setattr('googlemaps.Client', MockGoogleMapsClient)
 
-    assert get_address_coordinates("test") == (100, 200)
+    assert get_address_coordinates("test") == {
+                                                'format': "Clean address",
+                                                'lat': 100,
+                                                'lng': 200
+                                            }
 
 
 def test_get_address_coordinates_index_error(monkeypatch):
@@ -33,4 +36,4 @@ def test_get_address_coordinates_index_error(monkeypatch):
 
     monkeypatch.setattr('googlemaps.Client', MockGoogleMapsClient)
 
-    assert get_address_coordinates('Invalid place') == (0, 0)
+    assert get_address_coordinates('Invalid place') == {}

@@ -2,8 +2,8 @@ import requests
 import logging
 from pprint import *
 
-from google_maps.gmaps_geocode import get_address_coordinates
-from input_parser.string_parser import clean
+from papybotapp.google_maps import get_address_coordinates
+from papybotapp.input_parser.string_parser import clean
 
 
 API_URL = "https://fr.wikipedia.org/w/api.php"
@@ -18,7 +18,7 @@ examples = ["Salut ! Je ne sais pas vous mais je veux tout connaître du Stade d
             "le 12 rue du Pigeon, tu connais ?", "où se situe l'adresse du Magasin de chaussures "
             "à Pouet-les-Bains ?", "où est la rue chaudron 54 ?", "Tour Eiffel", "Pessac-sur-dordogne"]
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.WARNING)
 
 
 def get_page_id(address_lat, address_lng):
@@ -42,18 +42,18 @@ def get_page_id(address_lat, address_lng):
 
     if not response.status_code == 200:
         logging.warning(f'Error when retrieving WIKI article ID : {response.status_code}')
-        return
+        return 0
 
     try:
         page_id = response.json()['query']['geosearch'][0]['pageid']
     except KeyError:
-        return
+        return 0
 
     logging.debug(f'Article id returned : {page_id}')
     return page_id
 
 
-def get_article_content(page_id):
+def get_article_infos(page_id):
     """
     Wikipedia's page content from a page id
     :param page_id: Wikipedia's page id
@@ -62,8 +62,12 @@ def get_article_content(page_id):
 
     params = {
         'action': 'query',
-        'prop': 'revisions',
-        'rvprop': 'content',
+        'prop': 'info|extracts',
+        'inprop': 'url',
+        'explaintext': '',
+        # 'exlimit': 1,
+        'exintro': 1,
+        'exsectionformat': 'plain',
         'format': 'json',
         'formatversion': 2,
         'pageids': page_id
@@ -73,49 +77,65 @@ def get_article_content(page_id):
 
     if not response.status_code == 200:
         logging.warning(f'Error when retrieving article content : {response.status_code}')
-        return ""
+        return {}
+
+    response = response.json()
 
     try:
-        article_content = response.json()['query']['pages'][0]['revisions'][0]['content']
+        article_content = response['query']['pages'][0]['extract']
+        article_full_url = response['query']['pages'][0]['fullurl']
+
+        article_infos = {
+            'url': article_full_url,
+            'content': article_content
+        }
+
+        return article_infos
+
     except KeyError:
-        return ""
-
-    return article_content
+        return {}
 
 
-def main(example):
-    """
-    Take the user input from the website, clean it with string_parser.py, get the coordinates with gmaps_geocode.py,
-    get the Wikipedia's page id relative to the coordinates and get the article content of this page.
-    :param example: user input entered in the website
-    :return: Wikipedia's article content relative to the address +- SEARCH_RADIUS
-    """
+def main_func(example):
+    """    """
     address_user_input = clean(example)
 
-    address_lat, address_lng = get_address_coordinates(address_user_input)
+    address_coords = get_address_coordinates(address_user_input)
 
-    if (address_lat, address_lng) == (0, 0):
-        return
+    # Google Maps can't find coordinates
+    if not address_coords:
+        return  # BOT RESPONSE -> RANDOM SENTENCE NOT FOUND
 
-    page_id = get_page_id(address_lat, address_lng)
-    article_content = get_article_content(page_id)
+    page_id = get_page_id(address_coords['lat'], address_coords['lng'])
 
-    return article_content
+    # Wiki can't find page related to the coordinates
+    if not page_id:
+        return  # BOT RESPONSE -> RANDOM SENTENCE NOT FOUND
 
-    # TODO: bool si article trouvé -> random Bot response based on bool
-    # TODO: return dict/list coords, url, content, Bot response -> json
+    article_infos = get_article_infos(page_id)
+
+    # Wiki returned nothing even with a valid page_id
+    if not article_infos:
+        return  # BOT RESPONSE -> RANDOM SENTENCE NOT FOUND
+
+    article_json = {
+        'address': address_coords['format'],
+        'coords': (address_coords['lat'], address_coords['lng']),
+        'url': article_infos['url'],
+        'content': article_infos['content']
+        # 'bot_response': RANDOM SENTENCE BEFORE ARTICLE CONTENT
+    }
+
+    return article_json
 
 
 if __name__ == '__main__':
-    # pprint(main(examples[-1]), width=200)
-    get_article_content("test")
-    # get_page_id("string", "string")
+    pprint(main_func(examples[4]), width=200)
+    # pprint(get_article_infos(5091748))
+    # print(get_article_infos(99999999))
+    # get_page_id(48.8747265, 2.3505517)
     # address_lat, address_lng = 46.8077191, 7.159642
     # r = session.get(API_URL.format(address_lat, address_lng)).json()
     #
     # print(page_id)
 
-    # TODO: fullurl à la fin, changer params prop : info|extracts
-    #  explaintext = ""
-    #  inprop = url -> article url -> 'fullurl'
-    #  exchars = exsentences = 1/10
