@@ -16,20 +16,25 @@ function ajaxPost(url, data, callback) {
 }
 
 
-function initMap(response) {
-        let myLatLng = {lat: response.coords[0], lng: response.coords[1]};
+function initMap(lat, lng) {
+    if (lat === undefined || lng === undefined) {
+        lat = 0;
+        lng = 0;
+    }
 
-        let map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 11,
-          center: myLatLng
-        });
+    let myLatLng = {lat: lat, lng: lng};
 
-        let marker = new google.maps.Marker({
-          position: myLatLng,
-          map: map,
-          title: 'Ici mon petit !'
-        });
-      }
+    let map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 11,
+      center: myLatLng
+    });
+
+    let marker = new google.maps.Marker({
+      position: myLatLng,
+      map: map,
+      title: 'Ici mon petit !'
+    });
+  }
 
 let form = document.querySelector("form");
 
@@ -78,6 +83,6 @@ form.addEventListener("submit", function (e) {
         console.log(response);
 
         // Display Google Map
-        initMap(response);
+        initMap(response.coords[0], response.coords[1]);
     })
 });

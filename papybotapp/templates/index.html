@@ -14,17 +14,15 @@
             <input type="text" id="input" name="input" required>
             <input type="submit" value="Go PapyBot !">
         </p>
-
     </form>
 
     <div id="display-result">
     </div>
 
-    <div id="map"></div>
+    <div id="map" class="map"></div>
 
     <script src="{{ url_for('static', filename='js/call_parser.js') }}"></script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}">
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
     </script>
 </body>
 
