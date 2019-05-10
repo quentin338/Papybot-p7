@@ -1,0 +1,17 @@
+html, body {
+    height: 100%;
+    padding: 0;
+    margin-left: 0.5em;
+}
+
+#map {
+    height: 50%;
+    width: 50%;
+}
+
+.results {
+    border-style: solid;
+    border-width: 1px;
+    margin: 0.3em;
+    padding: 0.3em;
+}

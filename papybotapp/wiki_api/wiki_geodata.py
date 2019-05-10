@@ -1,9 +1,11 @@
 import requests
 import logging
+import random
 from pprint import *
 
 from papybotapp.google_maps import get_address_coordinates
 from papybotapp.input_parser.string_parser import clean
+from papybotapp.papybot_answers import PAPYBOT_GOOD_ANSWERS, PAPYBOT_BAD_ANSWERS
 
 
 API_URL = "https://fr.wikipedia.org/w/api.php"
@@ -65,7 +67,6 @@ def get_article_infos(page_id):
         'prop': 'info|extracts',
         'inprop': 'url',
         'explaintext': '',
-        # 'exlimit': 1,
         'exintro': 1,
         'exsectionformat': 'plain',
         'format': 'json',
@@ -98,33 +99,36 @@ def get_article_infos(page_id):
 
 def main_func(example):
     """    """
+    article_json = {
+        'address': None,
+        'coords': None,
+        'url': None,
+        'content': None,
+        'bot_response': random.choice(PAPYBOT_BAD_ANSWERS)
+    }
+
+    # We clean the input first
     address_user_input = clean(example)
 
-    address_coords = get_address_coordinates(address_user_input)
+    # Block try/except to catch any problem at any step (GoogleMaps not finding the place, Wiki not having any
+    # related page...
+    try:
+        address_coords = get_address_coordinates(address_user_input)
 
-    # Google Maps can't find coordinates
-    if not address_coords:
-        return  # BOT RESPONSE -> RANDOM SENTENCE NOT FOUND
+        article_json['coords'] = (address_coords['lat'], address_coords['lng'])
+        article_json['address'] = address_coords['format']
 
-    page_id = get_page_id(address_coords['lat'], address_coords['lng'])
+        page_id = get_page_id(address_coords['lat'], address_coords['lng'])
+        article_infos = get_article_infos(page_id)
 
-    # Wiki can't find page related to the coordinates
-    if not page_id:
-        return  # BOT RESPONSE -> RANDOM SENTENCE NOT FOUND
+        article_json['url'] = article_infos['url']
+        article_json['content'] = article_infos['content']
 
-    article_infos = get_article_infos(page_id)
+        if not any(article_json) is None:
+            article_json['bot_response'] = random.choice(PAPYBOT_GOOD_ANSWERS)
 
-    # Wiki returned nothing even with a valid page_id
-    if not article_infos:
-        return  # BOT RESPONSE -> RANDOM SENTENCE NOT FOUND
-
-    article_json = {
-        'address': address_coords['format'],
-        'coords': (address_coords['lat'], address_coords['lng']),
-        'url': article_infos['url'],
-        'content': article_infos['content']
-        # 'bot_response': RANDOM SENTENCE BEFORE ARTICLE CONTENT
-    }
+    except KeyError as e:
+        logging.debug(e)
 
     return article_json
 
