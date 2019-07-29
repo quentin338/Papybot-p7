@@ -135,11 +135,13 @@ $('#btn-delete-search').click(function() {
     $('#input').val("");
     $('#wiki-results').text("");
     $('#title-acc-new-search').text("Nouvelle recherche");
+    $('#wiki-link').html("");
     initMap();
 });
 
-function changeAccNewSearchTitle(newTitle) {
-    $('#title-acc-new-search').text(`Papybot vous raconte l'histoire du : ${newTitle}`);
+function changeAccNewSearchTitle(newTitle, url) {
+    $('#title-acc-new-search').html(`Papybot vous raconte l'histoire du : ${newTitle}.`);
+    $('#wiki-link').html(`Plus d'infos (<a href="${url}" target="_blank">Ici</a>)`);
 }
 
 function alertHide(elt, btnType) {
@@ -181,7 +183,7 @@ $('#btn-new-search').click(function() {
             response = JSON.parse(response);
             lastSearch = response;
 
-            changeAccNewSearchTitle(response.address);
+            changeAccNewSearchTitle(response.address, response.url);
             $('#wiki-results').text(response.content);
         })
     }

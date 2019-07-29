@@ -44,6 +44,7 @@ h1 {
     float: left;
     height: 27vh;
     /*border: 1px darkred solid;*/
+    overflow: auto;
 }
 
 .menu-width {
@@ -83,6 +84,14 @@ h1 {
     margin-left: 0.5vw;
     border: #3A7734 2px solid;
     overflow: auto;
+}
+
+#wiki-link {
+    margin: 0;
+    font-size: medium;
+    position: relative;
+    bottom: 2px;
+    color: darkolivegreen;
 }
 
 #map {
