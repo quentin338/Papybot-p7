@@ -1,0 +1,93 @@
+#header {
+    height: 22vh;
+    background-color: #86989B;
+}
+
+#img-logo {
+    border: #3A7734 2px solid;
+    border-radius: 15%;
+    float: left;
+    margin-left: 5vw;
+    /*margin-top: 1.5vh;*/
+    margin-top: 2%;
+}
+
+h1 {
+    float: left;
+    margin: 0 auto;
+    border: 1px red dashed;
+    height: 30%;
+}
+
+#alert-msg {
+    width: 50%;
+    display: none;
+    margin: 1vh 25%;
+}
+
+.accordion {
+    margin-top: 1vh;
+}
+
+.card {
+    width: 90vw;
+    margin: 0 auto;
+}
+
+.card-body {
+    /*border: 1px solid blue;*/
+    border-top: none;
+    /*height: 30%;*/
+}
+
+#query-menu {
+    float: left;
+    height: 27vh;
+    /*border: 1px darkred solid;*/
+}
+
+.menu-width {
+    width: 26%;
+}
+
+#input {
+    height: 17.2vh;
+    resize: none;
+    margin: 0;
+}
+
+#buttons {
+/*    width: 86%;*/
+    margin: 0 auto;
+/*    border: darkviolet 1px solid;*/
+}
+
+#btn-new-search {
+    width: 100%;
+}
+
+.btn-custom {
+    /*width: 10.3vw;*/
+    width: 49%;
+    margin-top: 0.2vh;
+}
+
+.btn-danger {
+    margin-right: 0.1vw;
+}
+
+#wiki-results {
+    float: left;
+    width: 42%;
+    height: 27vh;
+    margin-left: 0.5vw;
+    border: #3A7734 2px solid;
+    overflow: auto;
+}
+
+#map {
+    float: left;
+    width: 30%;
+    height: 27vh;
+    margin-left: 0.5vw;
+}

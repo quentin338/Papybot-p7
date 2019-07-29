@@ -25,8 +25,8 @@ function initMap(lat, lng) {
     let myLatLng = {lat: lat, lng: lng};
 
     let map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 11,
-      center: myLatLng
+        zoom: 11,
+        center: myLatLng
     });
 
     let marker = new google.maps.Marker({
@@ -38,51 +38,151 @@ function initMap(lat, lng) {
 
 let form = document.querySelector("form");
 
-form.addEventListener("submit", function (e) {
-    e.preventDefault();
+let firstMapDisplay = true;
 
-    document.getElementById("map").innerHTML = "";
+// form.addEventListener("submit", function (e) {
+//     e.preventDefault();
+//
+//     // if (firstMapDisplay === true) {
+//     // document.getElementById("map").innerHTML = "";
+//     // }
+//
+//     // Creating FormData and we pass it the input text to send it to the view
+//     let form = new FormData();
+//     form.append("query", e.target.elements.input.value);
+//
+//     ajaxPost("/parser/", form, function (response) {
+//         response = JSON.parse(response);
+//
+//         let displayElt = document.getElementById("display-result");
+//
+//         // We remove the first displayed map as we create one for each result
+//         if (firstMapDisplay === true) {
+//             let mapElt = document.getElementById("map");
+//             mapElt.parentNode.removeChild(mapElt);
+//             firstMapDisplay = false;
+//         }
+//
+//         // Creating a div with Papybot's image
+//         let papybotDivElt = document.createElement("div");
+//         papybotDivElt.id = "papybot-result-img";
+//         papybotDivElt.classList.add("papybot-result-img");
+//
+//         let papybotImgElt = document.createElement("img");
+//         papybotImgElt.src = "static/img/papybot300x300.jpg";
+//         papybotImgElt.alt = "Papybot";
+//
+//         papybotDivElt.appendChild(papybotImgElt);
+//
+//         // Creating a div who'll have 3 <p> elts : content, url and Papybot's answer
+//         let resultsElt = document.createElement("div");
+//         resultsElt.classList.add("results");
+//
+//         // Inserting the last search on top
+//         displayElt.insertBefore(resultsElt, displayElt.childNodes[0]);
+//
+//         // Creating div for result text content
+//         let textContentDiv = document.createElement("div");
+//         textContentDiv.id = "text-content";
+//         textContentDiv.classList.add("text-content");
+//
+//         // Content <p>
+//         let contentPElt = document.createElement("p");
+//         contentPElt.textContent = response.content;
+//         contentPElt.classList.add("wiki-content");
+//
+//         // Url <p>
+//         let urlPElt = document.createElement("p");
+//         let aElt = document.createElement("a");
+//         aElt.setAttribute("href", response.url);
+//         aElt.textContent = "Pour en savoir plus";
+//
+//         urlPElt.appendChild(aElt);
+//
+//         // PapyBot's answer <p>
+//         let papybotPElt = document.createElement("p");
+//         papybotPElt.textContent = "PapyBot : " + response.bot_response;
+//
+//         // Adding all 3 <p> to the div
+//         textContentDiv.appendChild(papybotPElt);
+//         textContentDiv.appendChild(contentPElt);
+//         textContentDiv.appendChild(urlPElt);
+//
+//         // Adding the div the result div
+//         resultsElt.appendChild(papybotDivElt);
+//         resultsElt.append(textContentDiv);
+//
+//         console.log(response);
+//
+//         // Creating new Map
+//         let newMapElt = document.createElement("div");
+//         newMapElt.id = "map";
+//         newMapElt.classList.add("map");
+//
+//         resultsElt.appendChild(newMapElt);
+//
+//         // Display Google Map
+//         initMap(response.coords[0], response.coords[1]);
+//
+//         // Removing id to be able to keep it while creating other maps
+//         newMapElt.removeAttribute("id");
+//     })
+// });
 
-    // Creating FormData and we pass it the input text to send it to the view
-    let form = new FormData();
-    form.append("query", e.target.elements.input.value);
+let lastSearch = undefined;
 
-    ajaxPost("/parser/", form, function (response) {
-        response = JSON.parse(response);
+$('#btn-delete-search').click(function() {
+    $('#input').val("");
+    $('#wiki-results').text("");
+    $('#title-acc-new-search').text("Nouvelle recherche");
+    initMap();
+});
 
-        let displayElt = document.getElementById("display-result");
+function changeAccNewSearchTitle(newTitle) {
+    $('#title-acc-new-search').text(`Papybot vous raconte l'histoire du : ${newTitle}`);
+}
 
-        // Creating a div who'll have 3 <p> elts : content, url and Papybot's answer
-        let resultsElt = document.createElement("div");
-        resultsElt.classList.add("results");
+function alertHide(elt, btnType) {
+    if (btnType != undefined) {
+        elt.hide("slow", function() {
+            elt.toggleClass(btnType);
+        });
+    } else {
+        elt.hide("slow");
+    }
+}
 
-        // Inserting the last search on top
-        displayElt.insertBefore(resultsElt, displayElt.childNodes[0]);
+function alertDisplay(elt, message, btnType=undefined) {
+    if (btnType != undefined) {
+        btnType = "alert-success " + btnType;
+        elt.toggleClass(btnType);
+    }
 
-        // Content <p>
-        let contentPElt = document.createElement("p");
-        contentPElt.textContent = response.content;
+    elt.text(message);
+    elt.show("slow", function() {
+        setTimeout(function() {
+            alertHide(elt, btnType);
+        }, 3000);
+    });
+}
 
-        // Url <p>
-        let urlPElt = document.createElement("p");
-        let aElt = document.createElement("a");
-        aElt.setAttribute("href", response.url);
-        aElt.textContent = response.url;
+$('#btn-save-search').click(function() {
+    alertDisplay($('#alert-msg'), "Votre recherche a été enregistrée.");
+});
 
-        urlPElt.appendChild(aElt);
+$('#btn-new-search').click(function() {
+    let alertBtn = $('#alert-msg');
+    let userInput = $('#input').val();
 
-        // PapyBot's answer <p>
-        let papybotPElt = document.createElement("p");
-        papybotPElt.textContent = "PapyBot : " + response.bot_response;
+    if (userInput === '') {
+        alertDisplay(alertBtn, "Papybot n'a pas entendu votre question.", "alert-warning");
+    } else {
+        ajaxPost("/parser", userInput, function(response) {
+            response = JSON.parse(response);
+            lastSearch = response;
 
-        // Adding all 3 <p>
-        resultsElt.appendChild(papybotPElt);
-        resultsElt.appendChild(contentPElt);
-        resultsElt.appendChild(urlPElt);
-
-        console.log(response);
-
-        // Display Google Map
-        initMap(response.coords[0], response.coords[1]);
-    })
+            changeAccNewSearchTitle(response.address);
+            $('#wiki-results').text(response.content);
+        })
+    }
 });

@@ -2,28 +2,48 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Welcome</title>
-    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Welcome</title>
+  <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
 </head>
 
 <body>
+
+<header id="header">
+  <img src="{{ url_for('static', filename='img/papybot300x300.jpg') }}" alt="Papybot" id="papybot-main-img" class="papybot-main-img">
+
+  <div id="form">
     <form>
-        <p>
-            <label for="input">Votre recherche :</label>
-            <input type="text" id="input" name="input" required>
-            <input type="submit" value="Go PapyBot !">
-        </p>
+      <p>
+        <label for="input">Demandez un renseignement sur une adresse à Papybot !</label>
+        <br />
+        <!--                <input type="text" id="input" name="input" required>-->
+        <textarea id="input" name="input" rows="10" cols="50" required placeholder="Tapez votre recherche ici"></textarea>
+        <input type="submit" value="Go PapyBot !">
+      </p>
+
     </form>
+  </div>
+</header>
 
-    <div id="display-result">
-    </div>
+<main>
 
-    <div id="map" class="map"></div>
+  <div id="display-result" class="display-result">
+    <div id="map" class="orig-map"></div>
+  </div>
 
-    <script src="{{ url_for('static', filename='js/call_parser.js') }}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
-    </script>
+</main>
+
+
+
+<footer></footer>
+
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='js/call_parser.js') }}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap"></script>
+
 </body>
 
 </html>
