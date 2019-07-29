@@ -131,17 +131,25 @@ let firstMapDisplay = true;
 
 let lastSearch = undefined;
 
-$('#btn-delete-search').click(function() {
+function deleteSearch() {
+    $('#title-acc-new-search').text("Nouvelle recherche");
     $('#input').val("");
     $('#wiki-results').text("");
-    $('#title-acc-new-search').text("Nouvelle recherche");
     $('#wiki-link').html("");
     initMap();
-});
+}
+
+$('#btn-delete-search').click(deleteSearch);
 
 function changeAccNewSearchTitle(newTitle, url) {
     $('#title-acc-new-search').html(`Papybot vous raconte l'histoire du : ${newTitle}.`);
     $('#wiki-link').html(`Plus d'infos (<a href="${url}" target="_blank">Ici</a>)`);
+}
+
+function displayResult(response) {
+    changeAccNewSearchTitle(response.address, response.url);
+    $('#wiki-results').text(response.content);
+    initMap(response.coords[0], response.coords[1]);
 }
 
 function alertHide(elt, btnType) {
@@ -180,11 +188,15 @@ $('#btn-new-search').click(function() {
         alertDisplay(alertBtn, "Papybot n'a pas entendu votre question.", "alert-warning");
     } else {
         ajaxPost("/parser", userInput, function(response) {
-            response = JSON.parse(response);
-            lastSearch = response;
+            if (response !== "") {
+                response = JSON.parse(response);
+                lastSearch = response;
 
-            changeAccNewSearchTitle(response.address, response.url);
-            $('#wiki-results').text(response.content);
+                displayResult(response);
+            } else {
+                alertDisplay(alertBtn, "Papybot a un trou de mémoire, veuillez précisez votre recherche",
+                    "alert-danger");
+            }
         })
     }
 });

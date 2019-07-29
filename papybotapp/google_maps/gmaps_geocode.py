@@ -11,7 +11,7 @@ def get_address_coordinates(address: str):
 
     try:
         geocode_result = gmaps.geocode(address)[0]
-    except IndexError:
+    except (IndexError, googlemaps.exceptions.HTTPError):
         logging.warning('Google Maps has no response for this address.')
         return {}
 
