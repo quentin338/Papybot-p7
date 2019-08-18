@@ -1,22 +1,41 @@
 #header {
+    position: relative;
     height: 22vh;
     background-color: #86989B;
+}
+
+#header-logo {
+    float: left;
+    /*border: #9C1A1C 2px solid;*/
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    height: 100%;
 }
 
 #img-logo {
     border: #3A7734 2px solid;
     border-radius: 15%;
+    display: block;
+    width: 150px;
+    height: 150px;
+    margin: 2.7vh auto;
+}
+
+#header-h1 {
     float: left;
-    margin-left: 5vw;
-    /*margin-top: 1.5vh;*/
-    margin-top: 2%;
+    /*border: 1px greenyellow dashed;*/
+    height: 100%;
+    width: 50%;
 }
 
 h1 {
-    float: left;
-    margin: 0 auto;
-    border: 1px red dashed;
-    height: 30%;
+    width: 50%;
+    height: 45%;
+    /*border: #177199 solid 2px;*/
+    margin: auto;
+    text-align: center;
 }
 
 #alert-msg {
@@ -99,4 +118,16 @@ h1 {
     width: 30%;
     height: 27vh;
     margin-left: 0.5vw;
+}
+
+@media (max-width: 450px) {
+    #header-logo {
+        width: 100%;
+    }
+
+    #header-h1 {
+        visibility: hidden;
+        display: none !important;
+    }
+
 }

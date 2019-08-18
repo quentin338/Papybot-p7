@@ -17,9 +17,13 @@
 
   <div id="header" class="container-fluid">
 
-    <img id="img-logo" src="{{ url_for('static', filename='img/papybot150x150.jpg') }}" alt="Papybot-logo">
+    <div id="header-logo" class="container">
+      <img id="img-logo" src="{{ url_for('static', filename='img/papybot150x150.jpg') }}" alt="Papybot-logo">
+    </div>
 
-    <h1>PAPYBOT - P7</h1>
+    <div class="container d-flex align-items-center" id="header-h1">
+      <h1>PAPYBOT<br>P7</h1>
+    </div>
 
   </div>
 
@@ -53,7 +57,7 @@
           <div id="query-menu" class="menu-width">
 
             <div class="form-group">
-<!--              <label for="input">Shadow and placeholder</label>-->
+              <label class="sr-only" for="input">Demandez un renseignement à Papybot ici</label>
               <textarea class="form-control z-depth-1" id="input" rows="3" placeholder="Votre recherche ici..."></textarea>
             </div>
 
@@ -112,17 +116,12 @@
 
   </div>
 
-
 </main>
 
-<!--<script type="text/javascript">-->
-<!--  $('#btn-save-search').click(function() {-->
-<!--      alert("pouet");-->
-<!--  })-->
+<footer>
 
-<!--</script>-->
+</footer>
 
-<!--  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/call_parser.js') }}"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap"></script>

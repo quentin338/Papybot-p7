@@ -141,6 +141,7 @@ function deleteSearch() {
 
 $('#btn-delete-search').click(deleteSearch);
 
+// TODO: change HTML to TEXT
 function changeAccNewSearchTitle(newTitle, url) {
     $('#title-acc-new-search').html(`Papybot vous raconte l'histoire du : ${newTitle}.`);
     $('#wiki-link').html(`Plus d'infos (<a href="${url}" target="_blank">Ici</a>)`);
@@ -162,7 +163,9 @@ function alertHide(elt, btnType) {
     }
 }
 
-function alertDisplay(elt, message, btnType=undefined) {
+
+/* */
+function alertDisplay(elt, message, btnType) {
     if (btnType != undefined) {
         btnType = "alert-success " + btnType;
         elt.toggleClass(btnType);
@@ -194,7 +197,7 @@ $('#btn-new-search').click(function() {
 
                 displayResult(response);
             } else {
-                alertDisplay(alertBtn, "Papybot a un trou de mémoire, veuillez précisez votre recherche",
+                alertDisplay(alertBtn, "Papybot a un trou de mémoire, veuillez précisez votre recherche.",
                     "alert-danger");
             }
         })

@@ -1,6 +1,8 @@
+import os
 from flask import Flask, render_template, url_for, request, jsonify
 
 from papybotapp.wiki_api import main_func
+
 from papybotapp.google_maps.CONSTANTS import GMAPS_API_KEY
 
 
@@ -15,6 +17,7 @@ def index():
 @app.route('/test')
 def test():
     return render_template("test.html", api_key=GMAPS_API_KEY)
+    # return render_template("test.html", api_key=os.getenv("api_key_env"))
 
 
 @app.route('/parser', methods=["POST"])
