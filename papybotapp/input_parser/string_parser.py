@@ -3,16 +3,22 @@ from papybotapp.stop_words import STOP_WORDS, VERBS
 
 def user_input_in_lowercase(user_input: str) -> str:
     """
+    Lowercase user_input
+
     :param user_input: what the user will enter on the website
-    :return: all user_input in lowercase
+    :return: user_input in lowercase
+
     """
     return user_input.lower()
 
 
 def removing_non_alnum(user_input: str) -> str:
     """
+    Removes non alphanumeric character
+
     :param user_input: string that the user entered
     :return: string with all non alnum chars removed
+
     """
     new_string = ""
     for word in user_input:
@@ -27,8 +33,11 @@ def removing_non_alnum(user_input: str) -> str:
 
 def removing_stop_words(user_input: str) -> str:
     """
+    Removes all stop_words from a fixed list -> papybotapp.stop_words.py
+
     :param user_input: string that user entered
     :return: string without all stop words in STOP_WORDS in stop_words.py
+
     """
     scraped = []
     for word in user_input.split():
@@ -40,8 +49,12 @@ def removing_stop_words(user_input: str) -> str:
 
 def refine_with_verbs(user_input: str) -> str:
     """
-    :param user_input: string that the user entered
-    :return: string splitted FROM a verb that we caught with VERBS in stop_words.py
+    Split the user_input from the first verb found -> papybotapp.stopwords.py
+    and return all the remaining string from that verb.
+
+    :param user_input: string that the user entered.
+    :return: string splitted FROM a verb that we caught.
+
     """
     for i, word in enumerate(user_input.split()[:-1]):
         for verb in VERBS:
@@ -53,8 +66,11 @@ def refine_with_verbs(user_input: str) -> str:
 
 def removing_remaining_verbs(user_input: str) -> str:
     """
-    :param user_input: string that the user entered
-    :return: string without the verbs caught with VERBS in stop_words.py
+    Removes all verbs matching with the fixed list of verbs -> papybotapp.stop_words.py
+
+    :param user_input: string that the user entered.
+    :return: string without the verbs caught.
+
     """
     clean_string = ""
 
