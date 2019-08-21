@@ -4,9 +4,15 @@ import logging
 import googlemaps
 
 
-def get_address_coordinates(address: str):
-    """"""
-    gmaps = googlemaps.Client(key=os.getenv("API_KEY_FRONT"))
+def get_address_coordinates(address: str) -> dict:
+    """
+    Uses Geocode Google API to get the coordinates and formal address from a str input.
+
+    :param address: The address you want the coordinates of.
+    :return: a dict consisting of : latitude, longitude and formatted address (e.g. 32 Python's Street etc)
+
+    """
+    gmaps = googlemaps.Client(key=os.getenv("API_KEY_BACK"))
 
     try:
         geocode_result = gmaps.geocode(address)[0]

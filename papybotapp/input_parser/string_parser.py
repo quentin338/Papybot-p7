@@ -1,14 +1,5 @@
 from papybotapp.stop_words import STOP_WORDS, VERBS
 
-examples = ["Salut ! Je ne sais pas vous mais je veux tout connaître du Stade de France à Paris !",
-            "1, avenue du Général Leclerc à Bordeaux",
-            "Salut GrandPy ! Est-ce que tu connais l'adresse d'OpenClassrooms ?",
-            "Bonjour je veux savoir l'adresse du 13 rue des Bisounours à Paris, merci Papybot.",
-            "Salut grandpy! Comment s'est passé ta soirée avec Madame Pahud hier soir? Au fait, pendant que j'y pense,"
-            " pourrais-tu m'indiquer où se trouve le musée d'art et d'histoire de Fribourg, s'il te plaît ?",
-            "le 12 rue du Pigeon, tu connais ?", "où se situe l'adresse du Magasin de chaussures "
-            "à Pouet-les-Bains ?", "où est la rue chaudron 54 ?", "Tour Eiffel"]
-
 
 def user_input_in_lowercase(user_input: str) -> str:
     """
@@ -82,10 +73,12 @@ def removing_remaining_verbs(user_input: str) -> str:
 
 def clean(user_input: str):
     """
-    Main function. Pass the user_input to all "cleaning functions" above
+    Main function. Pass the user_input to all "cleaning functions" above.
+
     :param user_input: string that the user entered
     :return: string in lower case, without alnum char, without stop words, splitted from the first verb caught
     and without the remaining verbs caught.
+
     """
     clean_string = user_input_in_lowercase(user_input)
     clean_string = removing_non_alnum(clean_string)
@@ -97,6 +90,14 @@ def clean(user_input: str):
 
 
 if __name__ == '__main__':
-    # for example in examples:
-    #     clean(example)
-    print(removing_remaining_verbs("savoir montrer indiquer"))
+    examples = ["Salut ! Je ne sais pas vous mais je veux tout connaître du Stade de France à Paris !",
+                "1, avenue du Général Leclerc à Bordeaux",
+                "Salut GrandPy ! Est-ce que tu connais l'adresse d'OpenClassrooms ?",
+                "Bonjour je veux savoir l'adresse du 13 rue des Bisounours à Paris, merci Papybot.",
+                "Salut grandpy! Comment s'est passé ta soirée avec Madame Pahud hier soir? Au fait, pendant que j'y pense,"
+                " pourrais-tu m'indiquer où se trouve le musée d'art et d'histoire de Fribourg, s'il te plaît ?",
+                "le 12 rue du Pigeon, tu connais ?", "où se situe l'adresse du Magasin de chaussures "
+                "à Pouet-les-Bains ?", "où est la rue chaudron 54 ?", "Tour Eiffel"]
+
+    for example in examples:
+        print(clean(example))

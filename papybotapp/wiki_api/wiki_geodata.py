@@ -26,11 +26,12 @@ logging.basicConfig(level=logging.WARNING)
 def get_page_id(address_lat, address_lng):
     """
     Converts coordinates into a Wikipedia's page id relative to the place
+
     :param address_lat: latitude of a place
     :param address_lng: longitude of a place
     :return: Wikipedia's page id. Link to an article referring to the place around SEARCH_RADIUS of it
-    """
 
+    """
     params = {
         'action': 'query',
         'list': 'geosearch',
@@ -57,11 +58,12 @@ def get_page_id(address_lat, address_lng):
 
 def get_article_infos(page_id):
     """
-    Wikipedia's page content from a page id
+    Wikipedia's page content from a page id.
+
     :param page_id: Wikipedia's page id
     :return: Wikipedia's article content
-    """
 
+    """
     params = {
         'action': 'query',
         'prop': 'info|extracts',
@@ -97,8 +99,15 @@ def get_article_infos(page_id):
         return {}
 
 
-def main_func(example):
-    """    """
+def main_func(user_input: str) -> dict:
+    """
+    Uses custom parser to clean user_input, Geocode API to find coordinates of it, look for a page on wikipedia
+    to find an article related to these coords and get first block of content of it.
+
+    :param user_input: the question/address entered by the user.
+    :return: dict containing: coordinates, address, wiki page url, wiki content and bot random sentence.
+
+    """
     article_json = {
         'address': None,
         'coords': None,
@@ -108,7 +117,7 @@ def main_func(example):
     }
 
     # We clean the input first
-    address_user_input = clean(example)
+    address_user_input = clean(user_input)
 
     # Block try/except to catch any problem at any step (GoogleMaps not finding the place, Wiki not having any
     # related page...
