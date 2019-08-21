@@ -1,13 +1,12 @@
+import os
 import logging
 
 import googlemaps
 
-from .CONSTANTS import GMAPS_API_KEY as API_KEY
-
 
 def get_address_coordinates(address: str):
     """"""
-    gmaps = googlemaps.Client(key=API_KEY)
+    gmaps = googlemaps.Client(key=os.getenv("API_KEY_FRONT"))
 
     try:
         geocode_result = gmaps.geocode(address)[0]
