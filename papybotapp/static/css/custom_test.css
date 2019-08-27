@@ -113,11 +113,44 @@ h1 {
     color: darkolivegreen;
 }
 
+#coords {
+    display: none;
+}
+
 #map {
     float: left;
     width: 30%;
     height: 27vh;
     margin-left: 0.5vw;
+}
+
+#saved-infos {
+    /*float: left;*/
+    /*width: 60%;*/
+    height: 100px;
+    border: #177199 1px solid;
+    margin-right: 0.2rem;
+    /*margin-bottom: 1vh;*/
+}
+
+#saved-address {
+    /*width: 100%;*/
+    height: 2rem;
+    border: crimson 1px solid;
+    margin-bottom: 0.1rem;
+}
+
+#saved-wiki-content {
+    /*width: 100%;*/
+    height: 4rem;
+    border: #11557C solid 1px;
+}
+
+#saved-map {
+    /*float: left;*/
+    width: 30%;
+    /*height: 100px;*/
+    border: #9C1A1C 1px solid;
 }
 
 @media (max-width: 450px) {

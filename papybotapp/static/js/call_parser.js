@@ -136,6 +136,7 @@ function deleteSearch() {
     $('#input').val("");
     $('#wiki-results').text("");
     $('#wiki-link').html("");
+    $('#coords').text("");
     initMap();
 }
 
@@ -143,7 +144,7 @@ $('#btn-delete-search').click(deleteSearch);
 
 function changeAccNewSearchTitle(newTitle, url) {
     $('#title-acc-new-search').text(`Papybot vous raconte l'histoire du : ${newTitle}.`);
-    // $('#wiki-link').html(`Plus d'infos (<a href="${url}" target="_blank">Ici</a>)`);
+
     let wikiSpanElt = $('#wiki-link');
     wikiSpanElt.text("Plus d'infos ");
     wikiSpanElt.append('<a id="wiki-link-a" target="_blank"></a>');
@@ -156,7 +157,11 @@ function changeAccNewSearchTitle(newTitle, url) {
 function displayResult(response) {
     changeAccNewSearchTitle(response.address, response.url);
     $('#wiki-results').text(response.content);
-    initMap(response.coords[0], response.coords[1]);
+
+    let lat = response.coords[0];
+    let lng = response.coords[1];
+    $('#coords').text(`${lat} ${lng}`);
+    initMap(lat, lng);
 }
 
 function alertHide(elt, btnType) {
@@ -185,10 +190,14 @@ function alertDisplay(elt, message, btnType) {
     });
 }
 
-$('#btn-save-search').click(function() {
-    /* TODO: get response aka wiki result geocoords research
+function getSearchInfos() {
+    return
+}
 
+$('#btn-save-search').click(function() {
+    /* TODO: get response: wiki result geocoords research
     */
+
     alertDisplay($('#alert-msg'), "Votre recherche a été enregistrée.");
 });
 

@@ -1,7 +1,8 @@
 import requests
 import logging
 import random
-from pprint import *
+from typing import Union
+import pprint as pp
 
 from papybotapp.google_maps import get_address_coordinates
 from papybotapp.input_parser.string_parser import clean
@@ -23,7 +24,7 @@ examples = ["Salut ! Je ne sais pas vous mais je veux tout connaître du Stade d
 logging.basicConfig(level=logging.WARNING)
 
 
-def get_page_id(address_lat, address_lng):
+def get_page_id(address_lat: Union[int, float], address_lng: Union[int, float]) -> int:
     """
     Converts coordinates into a Wikipedia's page id relative to the place
 
@@ -56,7 +57,7 @@ def get_page_id(address_lat, address_lng):
     return page_id
 
 
-def get_article_infos(page_id):
+def get_article_infos(page_id: int) -> dict:
     """
     Wikipedia's page content from a page id.
 
@@ -66,27 +67,29 @@ def get_article_infos(page_id):
     """
     params = {
         'action': 'query',
-        'prop': 'info|extracts',
+        'prop': 'info|extracts|pageimages',
         'inprop': 'url',
         'explaintext': '',
         'exintro': 1,
         'exsectionformat': 'plain',
         'format': 'json',
         'formatversion': 2,
-        'pageids': page_id
+        'pageids': page_id,
+        'pithumbsize': 100
     }
 
     response = requests.get(API_URL, params=params)
-
     if not response.status_code == 200:
         logging.warning(f'Error when retrieving article content : {response.status_code}')
         return {}
 
     response = response.json()
+    pp.pprint(response)
 
     try:
         article_content = response['query']['pages'][0]['extract']
         article_full_url = response['query']['pages'][0]['fullurl']
+        article_thumbnail = response['query']['pages'][0]['thumbnail']['source']
 
         article_infos = {
             'url': article_full_url,
@@ -143,5 +146,6 @@ def main_func(user_input: str) -> dict:
 
 
 if __name__ == '__main__':
-    pprint(main_func(examples[4]), width=200)
-
+    # pprint(main_func(examples[4]), width=200)
+    infos = get_article_infos(465230)
+    pp.pprint(infos)
