@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <title>Page de test pour nouvelle disposition</title>
+
+  <link href="{{ url_for('static', filename='css/custom_test_2.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<header>
+
+  <div id="header" class="container-fluid">
+    <div class="row">
+
+      <div id="header-logo" class="col-xs-3">
+        <img id="img-logo" src="{{ url_for('static', filename='img/papybot150x150.jpg') }}" alt="Papybot-logo">
+      </div>
+
+      <div class="col-xs-7" id="header-h1">
+        <h1>PAPYBOT P7</h1>
+      </div>
+
+    </div>
+  </div>
+
+</header>
+
+<main>
+  <div id="alert-msg" class="alert alert-success" role="alert">Super TEST !</div>
+
+  <div id="query-menu" class="container query-menu-h">
+    <div class="row">
+
+      <div class="col-md-8 form-group query-menu-h">
+        <label class="sr-only" for="input">Demandez un renseignement à Papybot ici</label>
+        <textarea class="form-control z-depth-1 query-menu-h" id="input" rows="3" placeholder="Votre recherche ici..."></textarea>
+      </div>
+
+      <div id="buttons" class="col-md-4 query-menu-h">
+        <div class="row">
+          <button id="btn-new-search" type="button" class="col-sm-12 btn btn-success buttons-h">Raconte-moi Papybot !</button>
+        </div>
+        <div class="row">
+          <button id="btn-delete-search" type="button" class="col-sm-12 btn btn-danger btn-custom buttons-h">Effacer</button>
+        </div>
+        <div class="row">
+          <button id="btn-save-search" type="button" class="col-sm-12 btn btn-primary btn-custom buttons-h">Enregistrer</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="results" class="row">
+      <div class="col-md-8 wiki-results">
+        <div id="wiki-results">WIKI RESULTS</div>
+      </div>
+      <div class="col-md-4 map">
+        <div id="map"></div>
+        <div id="coords"></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+
+</footer>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/call_parser.js') }}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
