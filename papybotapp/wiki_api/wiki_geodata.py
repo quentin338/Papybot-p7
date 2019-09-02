@@ -139,7 +139,7 @@ def main_func(user_input: str) -> dict:
         article_json['url'] = article_infos['url']
         article_json['content'] = article_infos['content']
 
-        article_json['thumbnail'] = article_infos.get('thumbnail', "{{ url_for('static', filename='img/wiki_logo.jpg') }}")
+        article_json['thumbnail'] = article_infos.get('thumbnail', "/static/img/wiki_logo.jpg")
 
         if not any(article_json) is None:
             article_json['bot_response'] = random.choice(PAPYBOT_GOOD_ANSWERS)

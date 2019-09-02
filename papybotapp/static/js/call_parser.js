@@ -117,6 +117,7 @@ $('#btn-save-search').click(function() {
     let wikiUrl = $('#wiki-link').text();
     let wikiThumbnail = $('#wiki-thumbnail').text();
 
+    // Pasting infos on the card
     $('.card-title').text(formatAddress);
     $('.card-text').text(wikiContent);
     $('#wiki-saved-link').href = wikiUrl;
