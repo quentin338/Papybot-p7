@@ -31,6 +31,10 @@
     margin: auto;
 }
 
+.buttons-h {
+    margin-bottom: 0.1rem;
+}
+
 .query-menu-h {
     height: 10rem !important;
 }

@@ -47,12 +47,8 @@ function initMap(lat, lng) {
   }
 
 function deleteSearch() {
-    $('#title-acc-new-search').text("Nouvelle recherche");
     $('#input').val("");
     $('#wiki-results').text("");
-    $('#wiki-link').html("");
-    $('.hidden-info').text("");
-    $('#results-card').toggleClass("d-none", true);
 
     initMap();
 }
@@ -88,10 +84,10 @@ function alertHide(elt, btnType) {
 
 
 function alertDisplay(elt, message, btnType) {
-    if (btnType != undefined) {
-        btnType = "alert-success " + btnType;
-        elt.toggleClass(btnType);
-    }
+    // if (btnType != undefined) {
+    //     btnType = "alert-success " + btnType;
+    //     elt.toggleClass(btnType);
+    // }
 
     elt.text(message);
     elt.show("slow", function() {
@@ -189,7 +185,7 @@ $('#btn-save-search').click(function() {
     // // Shows the card
     // $('#results-card').toggleClass('d-none', false);
 
-    alertDisplay($('#alert-msg'), "Votre recherche a été enregistrée.");
+    alertDisplay($('#alert-msg'), "Votre recherche a été enregistrée.", "alert-success");
 });
 
 $('#btn-new-search').click(function() {

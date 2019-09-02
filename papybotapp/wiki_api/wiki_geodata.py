@@ -139,8 +139,10 @@ def main_func(user_input: str) -> dict:
         article_json['url'] = article_infos['url']
         article_json['content'] = article_infos['content']
 
+        # We put Wikipedia's logo if there's no thumbnail on the article's page
         article_json['thumbnail'] = article_infos.get('thumbnail', "/static/img/wiki_logo.jpg")
 
+        # All steps have been completed successfully, we change the "bad" answer to "good"
         if not any(article_json) is None:
             article_json['bot_response'] = random.choice(PAPYBOT_GOOD_ANSWERS)
 
