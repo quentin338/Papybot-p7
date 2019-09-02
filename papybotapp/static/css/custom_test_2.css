@@ -52,10 +52,6 @@
     height: 100%;
 }
 
-#format-address {
-    display: none;
-}
-
 .map-hide {
     display: none;
 }
@@ -64,16 +60,21 @@
     overflow: auto;
 }
 
-#results-card {
+.results-card {
     margin-top: 1rem;
     max-width: 100% !important;
 }
 
-#wiki-saved-link {
+.wiki-saved-link {
     margin-bottom: 0.5rem;
 }
 
-#card-img {
+.google-maps-search {
+    margin-bottom: 0.5rem;
+    margin-left: 0.2rem;
+}
+
+.card-img {
     /*width: 50%;*/
 }
 
@@ -86,7 +87,7 @@
     width: 100% !important;
 }
 
-#saved-thumbnail {
+.saved-thumbnail {
     display: flex;
 }
 

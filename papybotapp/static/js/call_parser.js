@@ -15,7 +15,6 @@ function ajaxPost(url, data, callback) {
     req.send(data);
 }
 
-
 function initMap(lat, lng) {
     let needToDisplayMap = true;
 
@@ -47,8 +46,6 @@ function initMap(lat, lng) {
     }
   }
 
-let lastSearch = undefined;
-
 function deleteSearch() {
     $('#title-acc-new-search').text("Nouvelle recherche");
     $('#input').val("");
@@ -63,13 +60,19 @@ function deleteSearch() {
 $('#btn-delete-search').click(deleteSearch);
 
 function displayResult(response) {
-    $('#wiki-results').text(response.content);
-    $('#format-address').text(response.address);
-    $('#wiki-link').text(response.url);
-    $('#wiki-thumbnail').text(response.thumbnail);
-
     let lat = response.coords[0];
     let lng = response.coords[1];
+
+    $('#wiki-results').text(response.content);
+
+    // Saving data that will be displayed on the card if we save.
+    let results = $('#results');
+    results.attr("data-format-address", response.address);
+    results.attr("data-wiki-url", response.url);
+    results.attr("data-wiki-thumbnail", response.thumbnail);
+    results.attr("data-coords", `${lat} ${lng}`);
+
+    // Displaying the map
     initMap(lat, lng);
 }
 
@@ -84,7 +87,6 @@ function alertHide(elt, btnType) {
 }
 
 
-/* */
 function alertDisplay(elt, message, btnType) {
     if (btnType != undefined) {
         btnType = "alert-success " + btnType;
@@ -99,10 +101,65 @@ function alertDisplay(elt, message, btnType) {
     });
 }
 
-$('#btn-save-search').click(function() {
-    /* TODO: get response: wiki result geocoords research
-    */
+function createCard(formatAddress, wikiContent, wikiUrl, wikiThumbnail) {
+    // Architecture of the card
+    let mainElt = document.createElement("div");
+    let rowElt = document.createElement("div");
+    mainElt.appendChild(rowElt);
 
+    let colThumbnailElt = document.createElement("div");
+    let thumbnailElt = document.createElement("img");
+    colThumbnailElt.appendChild(thumbnailElt);
+    rowElt.appendChild(colThumbnailElt);
+
+    let cardElt = document.createElement("div");
+    let cardBodyElt = document.createElement("div");
+    cardElt.appendChild(cardBodyElt);
+    rowElt.appendChild(cardElt);
+
+    let cardTitleElt = document.createElement("h5");
+    let cardTextElt = document.createElement("p");
+    let cardWikiLinkElt = document.createElement("a");
+    let cardMapsLinkElt = document.createElement("a");
+
+    cardBodyElt.appendChild(cardTitleElt);
+    cardBodyElt.appendChild(cardTextElt);
+    cardBodyElt.appendChild(cardWikiLinkElt);
+    cardBodyElt.appendChild(cardMapsLinkElt);
+
+    // Adding classes, attributes and content
+    mainElt.classList.add("card", "mb-3", "results-card");
+    rowElt.classList.add("row", "no-gutters");
+    colThumbnailElt.classList.add("col-md-4", "saved-thumbnail");
+
+    thumbnailElt.classList.add("card-img-top" , "card-img");
+    thumbnailElt.setAttribute("src", wikiThumbnail);
+    thumbnailElt.setAttribute("alt", "");
+
+    cardElt.classList.add("col-md-8");
+    cardBodyElt.classList.add("card-body", "text-center");
+
+    cardTitleElt.classList.add("card-title");
+    cardTitleElt.innerText = formatAddress;
+
+    cardTextElt.classList.add("card-text");
+    cardTextElt.innerText = wikiContent;
+
+    cardWikiLinkElt.classList.add("btn", "btn-primary", "wiki-saved-link");
+    cardWikiLinkElt.href = wikiUrl;
+    cardWikiLinkElt.text = "Article Wikipédia";
+
+    cardMapsLinkElt.classList.add("btn", "btn-primary", "google-maps-search");
+    cardMapsLinkElt.href = "#";
+    cardMapsLinkElt.text = "Lien GoogleMaps";
+
+    // Inserting the card at the top of the other cards if any
+    let allCardsElt = $('#all-cards');
+    allCardsElt.prepend(mainElt);
+}
+
+
+$('#btn-save-search').click(function() {
     let wikiContent = $('#wiki-results').text();
 
     // We cut short if there is nothing to save
@@ -113,18 +170,24 @@ $('#btn-save-search').click(function() {
     }
 
     // Grabbing infos from page
-    let formatAddress = $('#format-address').text();
-    let wikiUrl = $('#wiki-link').text();
-    let wikiThumbnail = $('#wiki-thumbnail').text();
+    let resultsData = $('#results');
 
-    // Pasting infos on the card
-    $('.card-title').text(formatAddress);
-    $('.card-text').text(wikiContent);
-    $('#wiki-saved-link').href = wikiUrl;
-    $('#card-img').attr('src', wikiThumbnail);
+    let formatAddress = resultsData.attr("data-format-address");
+    let wikiUrl = resultsData.attr("data-wiki-url");
+    let wikiThumbnail = resultsData.attr("data-wiki-thumbnail");
 
-    // Shows the card
-    $('#results-card').toggleClass('d-none', false);
+    // Creation of the card
+    console.log(formatAddress, wikiContent);
+    createCard(formatAddress, wikiContent, wikiUrl, wikiThumbnail);
+
+    // // Pasting infos on the card
+    // $('.card-title').text(formatAddress);
+    // $('.card-text').text(wikiContent);
+    // $('#wiki-saved-link').href = wikiUrl;
+    // $('#card-img').attr('src', wikiThumbnail);
+
+    // // Shows the card
+    // $('#results-card').toggleClass('d-none', false);
 
     alertDisplay($('#alert-msg'), "Votre recherche a été enregistrée.");
 });
