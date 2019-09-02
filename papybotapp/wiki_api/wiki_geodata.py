@@ -59,10 +59,10 @@ def get_page_id(address_lat: Union[int, float], address_lng: Union[int, float]) 
 
 def get_article_infos(page_id: int) -> dict:
     """
-    Wikipedia's page content from a page id.
+    Wikipedia's page infos from a page id.
 
     :param page_id: Wikipedia's page id
-    :return: Wikipedia's article content
+    :return: Wikipedia's article url/content/thumbnail
 
     """
     params = {
@@ -75,7 +75,7 @@ def get_article_infos(page_id: int) -> dict:
         'format': 'json',
         'formatversion': 2,
         'pageids': page_id,
-        'pithumbsize': 100
+        'pithumbsize': 500
     }
 
     response = requests.get(API_URL, params=params)
@@ -93,7 +93,8 @@ def get_article_infos(page_id: int) -> dict:
 
         article_infos = {
             'url': article_full_url,
-            'content': article_content
+            'content': article_content,
+            'thumbnail': article_thumbnail
         }
 
         return article_infos
@@ -116,6 +117,7 @@ def main_func(user_input: str) -> dict:
         'coords': None,
         'url': None,
         'content': None,
+        'thumbnail': None,
         'bot_response': random.choice(PAPYBOT_BAD_ANSWERS)
     }
 
@@ -131,10 +133,13 @@ def main_func(user_input: str) -> dict:
         article_json['address'] = address_coords['format']
 
         page_id = get_page_id(address_coords['lat'], address_coords['lng'])
+        print(page_id)
         article_infos = get_article_infos(page_id)
 
         article_json['url'] = article_infos['url']
         article_json['content'] = article_infos['content']
+
+        article_json['thumbnail'] = article_infos.get('thumbnail', "{{ url_for('static', filename='img/wiki_logo.jpg') }}")
 
         if not any(article_json) is None:
             article_json['bot_response'] = random.choice(PAPYBOT_GOOD_ANSWERS)

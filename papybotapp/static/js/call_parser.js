@@ -47,8 +47,6 @@ function initMap(lat, lng) {
     }
   }
 
-let form = document.querySelector("form");
-
 let lastSearch = undefined;
 
 function deleteSearch() {
@@ -56,31 +54,22 @@ function deleteSearch() {
     $('#input').val("");
     $('#wiki-results').text("");
     $('#wiki-link').html("");
-    $('#coords').text("");
+    $('.hidden-info').text("");
+    $('#results-card').toggleClass("d-none", true);
+
     initMap();
 }
 
 $('#btn-delete-search').click(deleteSearch);
 
-function changeAccNewSearchTitle(newTitle, url) {
-    $('#title-acc-new-search').text(`Papybot vous raconte l'histoire du : ${newTitle}.`);
-
-    let wikiSpanElt = $('#wiki-link');
-    wikiSpanElt.text("Plus d'infos ");
-    wikiSpanElt.append('<a id="wiki-link-a" target="_blank"></a>');
-
-    let wikiAElt = $('#wiki-link-a');
-    wikiAElt.text("Ici");
-    wikiAElt.attr("href", url)
-}
-
 function displayResult(response) {
-    changeAccNewSearchTitle(response.address, response.url);
     $('#wiki-results').text(response.content);
+    $('#format-address').text(response.address);
+    $('#wiki-link').text(response.url);
+    $('#wiki-thumbnail').text(response.thumbnail);
 
     let lat = response.coords[0];
     let lng = response.coords[1];
-    $('#coords').text(`${lat} ${lng}`);
     initMap(lat, lng);
 }
 
@@ -110,13 +99,31 @@ function alertDisplay(elt, message, btnType) {
     });
 }
 
-function getSearchInfos() {
-    return
-}
-
 $('#btn-save-search').click(function() {
     /* TODO: get response: wiki result geocoords research
     */
+
+    let wikiContent = $('#wiki-results').text();
+
+    // We cut short if there is nothing to save
+    if (wikiContent === "") {
+        alertDisplay($('#alert-msg'), "Veuillez effectuer une recherche valide avant d'enregistrer.",
+            "alert-warning");
+        return
+    }
+
+    // Grabbing infos from page
+    let formatAddress = $('#format-address').text();
+    let wikiUrl = $('#wiki-link').text();
+    let wikiThumbnail = $('#wiki-thumbnail').text();
+
+    $('.card-title').text(formatAddress);
+    $('.card-text').text(wikiContent);
+    $('#wiki-saved-link').href = wikiUrl;
+    $('#card-img').attr('src', wikiThumbnail);
+
+    // Shows the card
+    $('#results-card').toggleClass('d-none', false);
 
     alertDisplay($('#alert-msg'), "Votre recherche a été enregistrée.");
 });
@@ -133,6 +140,8 @@ $('#btn-new-search').click(function() {
                 response = JSON.parse(response);
                 lastSearch = response;
 
+                // We delete everything before displaying new search ( == pushing "Effacer" button)
+                deleteSearch();
                 displayResult(response);
             } else {
                 alertDisplay(alertBtn, "Papybot a un trou de mémoire, veuillez précisez votre recherche.",

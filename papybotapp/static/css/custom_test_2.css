@@ -52,12 +52,42 @@
     height: 100%;
 }
 
-#coords {
+#format-address {
     display: none;
 }
 
 .map-hide {
     display: none;
+}
+
+.wiki-results {
+    overflow: auto;
+}
+
+#results-card {
+    margin-top: 1rem;
+    max-width: 100% !important;
+}
+
+#wiki-saved-link {
+    margin-bottom: 0.5rem;
+}
+
+#card-img {
+    /*width: 50%;*/
+}
+
+.card-text {
+    overflow: auto;
+    max-height: 10rem;
+}
+
+.no-gutters {
+    width: 100% !important;
+}
+
+#saved-thumbnail {
+    display: flex;
 }
 
 @media (max-width: 600px) {
@@ -90,6 +120,8 @@
 
     .map {
         height:60%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
 
 }
