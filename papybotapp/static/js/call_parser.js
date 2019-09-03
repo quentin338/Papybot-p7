@@ -148,7 +148,7 @@ function createCard(formatAddress, wikiContent, wikiUrl, wikiThumbnail) {
 
 
 $('#btn-save-search').click(function() {
-    let alertElt = $('#alert-msg')
+    let alertElt = $('#alert-msg');
     let wikiContent = $('#wiki-results').text();
 
     // We cut short if there is nothing to save
@@ -172,6 +172,11 @@ $('#btn-save-search').click(function() {
     alertDisplay(alertElt, "Votre recherche a été enregistrée.", "alert-success");
 });
 
+let isResponseBad = function(element) {
+    console.log(element);
+    return element === null;
+};
+
 $('#btn-new-search').click(function() {
     let alertBtn = $('#alert-msg');
     let userInput = $('#input').val();
@@ -180,15 +185,15 @@ $('#btn-new-search').click(function() {
         alertDisplay(alertBtn, "Papybot n'a pas entendu votre question.", "alert-warning");
     } else {
         ajaxPost("/parser", userInput, function(response) {
-            if (response !== "") {
-                response = JSON.parse(response);
-                lastSearch = response;
+            response = JSON.parse(response);
 
+            if (Object.values(response).some(isResponseBad) === false) {
                 // We delete everything before displaying new search ( == pushing "Effacer" button)
                 deleteSearch();
                 displayResult(response);
             } else {
-                alertDisplay(alertBtn, "Papybot a un trou de mémoire, veuillez précisez votre recherche.",
+                console.log(response);
+                alertDisplay(alertBtn, `${response.bot_response}`,
                     "alert-danger");
             }
         })

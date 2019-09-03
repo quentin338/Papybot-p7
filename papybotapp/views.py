@@ -17,9 +17,6 @@ def parser():
     if request.method == "POST":
         results = main_func(str(request.data))
 
-        if None in results.values():
-            return ""
-
         # results = {
         #     'address': "10, rue des artistes",
         #     'coords': (10, 10),
