@@ -56,9 +56,9 @@
     height: 100%;
 }
 
-.map-hide {
-    display: none;
-}
+/*.map-hide {*/
+/*    display: none;*/
+/*}*/
 
 .wiki-results {
     overflow: auto;

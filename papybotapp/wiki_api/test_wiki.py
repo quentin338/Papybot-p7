@@ -60,8 +60,8 @@ class TestWikiApi:
 
         assert get_page_id("string", "string") == 0
 
-    # get_article_content()
-    def test_get_article_content_code_ok(self, monkeypatch):
+    # get_article_infos()
+    def test_get_article_infos_code_ok(self, monkeypatch):
         class MockRequestsGet:
             def __init__(self, url, params):
                 self.status_code = 200
@@ -71,7 +71,10 @@ class TestWikiApi:
                     'query': {
                         'pages': [{
                                 'extract': 'Wiki content !',
-                                'fullurl': 'https://www.python.org'
+                                'fullurl': 'https://www.python.org',
+                                'thumbnail': {
+                                    'source': 'https://mythumbnail.com'
+                                }
                             }]
                     }
                 }
@@ -80,10 +83,11 @@ class TestWikiApi:
 
         assert get_article_infos(120) == {
             'url': 'https://www.python.org',
-            'content': 'Wiki content !'
+            'content': 'Wiki content !',
+            'thumbnail': 'https://mythumbnail.com'
         }
 
-    def test_get_article_content_code_not_ok(self, monkeypatch):
+    def test_get_article_infos_code_not_ok(self, monkeypatch):
         class MockRequestsGet:
             def __init__(self, url, params):
                 self.status_code = 404
@@ -92,7 +96,7 @@ class TestWikiApi:
 
         assert get_article_infos(120) == {}
 
-    def test_get_article_content_key_error(self, monkeypatch):
+    def test_get_article_infos_key_error(self, monkeypatch):
         class MockRequestsGet:
             def __init__(self, url, params):
                 pass
@@ -105,4 +109,4 @@ class TestWikiApi:
 
         monkeypatch.setattr('requests.get', mock_requests)
 
-        assert get_article_infos("string") == {}
+        assert get_article_infos(120) == {}

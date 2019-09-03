@@ -75,7 +75,6 @@ def get_article_infos(page_id: int) -> dict:
         return {}
 
     response = response.json()
-    pp.pprint(response)
 
     try:
         article_content = response['query']['pages'][0]['extract']
@@ -124,7 +123,6 @@ def main_func(user_input: str) -> dict:
         article_json['address'] = address_coords['format']
 
         page_id = get_page_id(address_coords['lat'], address_coords['lng'])
-        print(page_id)
         article_infos = get_article_infos(page_id)
 
         article_json['url'] = article_infos['url']

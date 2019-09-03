@@ -37,31 +37,41 @@ function initMap(lat, lng) {
       title: 'Ici mon petit !'
     });
 
+    // Add/remove display: none, based on undefined coords or not
     let mapHide = $('#map');
-    // If we need to display the map, we always remove .map-hide, else we always add it.
     if (needToDisplayMap === false) {
-        mapHide.toggleClass("map-hide", true);
+        mapHide.toggleClass("d-none", true);
     } else {
-        mapHide.toggleClass("map-hide", false);
+        mapHide.toggleClass("d-none", false);
     }
   }
 
+
+// "Effacer" (delete) button
 function deleteSearch() {
     $('#input').val("");
     $('#wiki-results').text("");
 
+    let resultsElt = $('#results');
+    resultsElt.removeAttr('data-format-address');
+    resultsElt.removeAttr('data-wiki-url');
+    resultsElt.removeAttr('data-wiki-thumbnail');
+    resultsElt.removeAttr('data-coords');
+
+    // Reset the map with no coords
     initMap();
 }
 
 $('#btn-delete-search').click(deleteSearch);
 
+// Display results when the response to wiki AND GoogleMaps are good
 function displayResult(response) {
     let lat = response.coords[0];
     let lng = response.coords[1];
 
     $('#wiki-results').text(response.content);
 
-    // Saving data that will be displayed on the card if we save.
+    // Saving data that will be displayed on the card if we save
     let results = $('#results');
     results.attr("data-format-address", response.address);
     results.attr("data-wiki-url", response.url);
@@ -72,13 +82,7 @@ function displayResult(response) {
     initMap(lat, lng);
 }
 
-function alertHide(elt, btnType) {
-        elt.hide("slow", function() {
-            elt.toggleClass(btnType, false)
-        });
-}
-
-// Custom display of an alert with "slow" show and hide
+// Custom display of an alert with "slow" show/hide effect
 function alertDisplay(elt, message, btnType) {
     elt.toggleClass(btnType, true);
     elt.text(message);
@@ -89,6 +93,13 @@ function alertDisplay(elt, message, btnType) {
     });
 }
 
+function alertHide(elt, btnType) {
+        elt.hide("slow", function() {
+            elt.toggleClass(btnType, false)
+        });
+}
+
+// Custom card creation
 function createCard(formatAddress, wikiContent, wikiUrl, wikiThumbnail) {
     // Architecture of the card
     let mainElt = document.createElement("div");
@@ -146,7 +157,7 @@ function createCard(formatAddress, wikiContent, wikiUrl, wikiThumbnail) {
     allCardsElt.prepend(mainElt);
 }
 
-
+// "Enregistrer" (save) button
 $('#btn-save-search').click(function() {
     let alertElt = $('#alert-msg');
     let wikiContent = $('#wiki-results').text();
@@ -166,17 +177,18 @@ $('#btn-save-search').click(function() {
     let wikiThumbnail = resultsData.attr("data-wiki-thumbnail");
 
     // Creation of the card
-    console.log(formatAddress, wikiContent);
     createCard(formatAddress, wikiContent, wikiUrl, wikiThumbnail);
 
     alertDisplay(alertElt, "Votre recherche a été enregistrée.", "alert-success");
 });
 
+// Function to check if any element of an Array is null
 let isResponseBad = function(element) {
     console.log(element);
     return element === null;
 };
 
+// "Raconte-moi Papybot !" (search) button
 $('#btn-new-search').click(function() {
     let alertBtn = $('#alert-msg');
     let userInput = $('#input').val();
