@@ -79,7 +79,11 @@
 }
 
 .card-img {
-    /*width: 50%;*/
+    max-height: 20rem;
+    max-width: 15rem;
+    margin: auto;
+    width: auto !important;
+    height: auto;
 }
 
 .card-text {
@@ -129,4 +133,7 @@
         margin-bottom: 1rem;
     }
 
+    .results-card:first-child {
+        margin-top: 2rem;
+    }
 }

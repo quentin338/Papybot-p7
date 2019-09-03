@@ -138,7 +138,7 @@ function createCard(formatAddress, wikiContent, wikiUrl, wikiThumbnail) {
     cardWikiLinkElt.text = "Article Wikipédia";
 
     cardMapsLinkElt.classList.add("btn", "btn-primary", "google-maps-search");
-    cardMapsLinkElt.href = "#";
+    cardMapsLinkElt.href = `https://www.google.com/maps/search/?api=1&query=${formatAddress}`;
     cardMapsLinkElt.text = "Lien GoogleMaps";
 
     // Inserting the card at the top of the other cards if any
