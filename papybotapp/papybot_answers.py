@@ -1,12 +1,9 @@
 PAPYBOT_GOOD_ANSWERS = [
-    "Quelle histoire !! Je m'en souviens comme si c'était hier...",
-    "J'étais là, j'ai tout vu...",
-    "On m'a dit que...",
-    "Une chose à retenir sur cet endroit...",
-    "Pour une fois que tu m'écoutes...",
-    "Je me rappelle y être allé au moins une bonne douzaine de fois...",
-    "Au risque de radoter...",
-    "L'histoire de ce lieu est extraordinaire..."
+    "{}. Un lieu rempli d'histoire !",
+    "Une chose à retenir sur : {}",
+    "Pour une fois que tu m'écoutes, je vais te raconter l'histoire du : {}",
+    "Ah ! {}. Je me rappelle y être allé au moins une bonne douzaine de fois...",
+    "L'histoire du : {} est extraordinaire..."
 ]
 
 PAPYBOT_BAD_ANSWERS = [

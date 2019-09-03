@@ -133,7 +133,7 @@ def main_func(user_input: str) -> dict:
 
         # All steps have been completed successfully, we change the "bad" answer to "good"
         if not any(article_json) is None:
-            article_json['bot_response'] = random.choice(PAPYBOT_GOOD_ANSWERS)
+            article_json['bot_response'] = random.choice(PAPYBOT_GOOD_ANSWERS).format(article_json['address'])
 
     except KeyError as e:
         logging.debug(e)

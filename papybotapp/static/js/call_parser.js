@@ -46,17 +46,22 @@ function initMap(lat, lng) {
     }
   }
 
+function deleteMetaData(element) {
+    element.removeAttr('data-format-address');
+    element.removeAttr('data-wiki-url');
+    element.removeAttr('data-wiki-thumbnail');
+    element.removeAttr('data-coords');
+}
 
 // "Effacer" (delete) button
 function deleteSearch() {
     $('#input').val("");
     $('#wiki-results').text("");
 
+    // Delete data and hide the div
     let resultsElt = $('#results');
-    resultsElt.removeAttr('data-format-address');
-    resultsElt.removeAttr('data-wiki-url');
-    resultsElt.removeAttr('data-wiki-thumbnail');
-    resultsElt.removeAttr('data-coords');
+    deleteMetaData(resultsElt);
+    resultsElt.toggleClass("d-none", true);
 
     // Reset the map with no coords
     initMap();
@@ -77,19 +82,24 @@ function displayResult(response) {
     results.attr("data-wiki-url", response.url);
     results.attr("data-wiki-thumbnail", response.thumbnail);
     results.attr("data-coords", `${lat} ${lng}`);
+    results.toggleClass("d-none", false);
 
     // Displaying the map
     initMap(lat, lng);
 }
 
 // Custom display of an alert with "slow" show/hide effect
-function alertDisplay(elt, message, btnType) {
+function alertDisplay(elt, message, btnType, displayTime) {
+    if (displayTime === undefined) {
+        displayTime = 3000;
+    }
+
     elt.toggleClass(btnType, true);
     elt.text(message);
     elt.show("slow", function() {
         setTimeout(function() {
             alertHide(elt, btnType);
-        }, 3000);
+        }, displayTime);
     });
 }
 
@@ -139,7 +149,7 @@ function createCard(formatAddress, wikiContent, wikiUrl, wikiThumbnail) {
     cardBodyElt.classList.add("card-body", "text-center");
 
     cardTitleElt.classList.add("card-title");
-    cardTitleElt.innerText = formatAddress;
+    cardTitleElt.innerText = `Votre recherche : ${formatAddress}`;
 
     cardTextElt.classList.add("card-text");
     cardTextElt.innerText = wikiContent;
@@ -172,12 +182,21 @@ $('#btn-save-search').click(function() {
     // Grabbing infos from page
     let resultsData = $('#results');
 
+    // No metadata means that one card has already been done with this search
+    if (resultsData.attr('data-format-address') === undefined) {
+        alertDisplay(alertElt, "Vous avez déjà enregistré cette recherche.", "alert-warning");
+        return
+    }
+
     let formatAddress = resultsData.attr("data-format-address");
     let wikiUrl = resultsData.attr("data-wiki-url");
     let wikiThumbnail = resultsData.attr("data-wiki-thumbnail");
 
     // Creation of the card
     createCard(formatAddress, wikiContent, wikiUrl, wikiThumbnail);
+
+    // We delete the meta-data to not be able to make the same card twice on one search
+    deleteMetaData(resultsData);
 
     alertDisplay(alertElt, "Votre recherche a été enregistrée.", "alert-success");
 });
@@ -199,14 +218,19 @@ $('#btn-new-search').click(function() {
         ajaxPost("/parser", userInput, function(response) {
             response = JSON.parse(response);
 
+            // If all values in the response are good, we can display it to the user
             if (Object.values(response).some(isResponseBad) === false) {
                 // We delete everything before displaying new search ( == pushing "Effacer" button)
                 deleteSearch();
+
+                // Papybot conversation
+                alertDisplay(alertBtn, `PAPYBOT : ${response.bot_response}`, "alert-success", 10000);
+
+                // Displaying result in #results
                 displayResult(response);
             } else {
-                console.log(response);
-                alertDisplay(alertBtn, `${response.bot_response}`,
-                    "alert-danger");
+                alertDisplay(alertBtn, `PAPYBOT : ${response.bot_response}`,
+                    "alert-danger", 10000);
             }
         })
     }
