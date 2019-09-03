@@ -73,22 +73,14 @@ function displayResult(response) {
 }
 
 function alertHide(elt, btnType) {
-    if (btnType != undefined) {
         elt.hide("slow", function() {
-            elt.toggleClass(btnType);
+            elt.toggleClass(btnType, false)
         });
-    } else {
-        elt.hide("slow");
-    }
 }
 
-
+// Custom display of an alert with "slow" show and hide
 function alertDisplay(elt, message, btnType) {
-    // if (btnType != undefined) {
-    //     btnType = "alert-success " + btnType;
-    //     elt.toggleClass(btnType);
-    // }
-
+    elt.toggleClass(btnType, true);
     elt.text(message);
     elt.show("slow", function() {
         setTimeout(function() {
@@ -156,11 +148,12 @@ function createCard(formatAddress, wikiContent, wikiUrl, wikiThumbnail) {
 
 
 $('#btn-save-search').click(function() {
+    let alertElt = $('#alert-msg')
     let wikiContent = $('#wiki-results').text();
 
     // We cut short if there is nothing to save
     if (wikiContent === "") {
-        alertDisplay($('#alert-msg'), "Veuillez effectuer une recherche valide avant d'enregistrer.",
+        alertDisplay(alertElt, "Veuillez effectuer une recherche valide avant d'enregistrer.",
             "alert-warning");
         return
     }
@@ -176,16 +169,7 @@ $('#btn-save-search').click(function() {
     console.log(formatAddress, wikiContent);
     createCard(formatAddress, wikiContent, wikiUrl, wikiThumbnail);
 
-    // // Pasting infos on the card
-    // $('.card-title').text(formatAddress);
-    // $('.card-text').text(wikiContent);
-    // $('#wiki-saved-link').href = wikiUrl;
-    // $('#card-img').attr('src', wikiThumbnail);
-
-    // // Shows the card
-    // $('#results-card').toggleClass('d-none', false);
-
-    alertDisplay($('#alert-msg'), "Votre recherche a été enregistrée.", "alert-success");
+    alertDisplay(alertElt, "Votre recherche a été enregistrée.", "alert-success");
 });
 
 $('#btn-new-search').click(function() {
