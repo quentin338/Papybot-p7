@@ -211,12 +211,14 @@ let isResponseBad = function(element) {
 $('#btn-new-search').click(function() {
     let alertBtn = $('#alert-msg');
     let userInput = $('#input').val();
+    $('body').css('cursor', 'wait');
 
     if (userInput === '') {
         alertDisplay(alertBtn, "Papybot n'a pas entendu votre question.", "alert-warning");
     } else {
         ajaxPost("/parser", userInput, function(response) {
             response = JSON.parse(response);
+            $('body').css('cursor', 'default');
 
             // If all values in the response are good, we can display it to the user
             if (Object.values(response).some(isResponseBad) === false) {

@@ -27,7 +27,7 @@ def parser():
             'bot_response': "La réponse de papybot !"
         }
 
-        # results = main_func(str(request.data))
+        results = main_func(str(request.data))
 
         return jsonify(results)
 
