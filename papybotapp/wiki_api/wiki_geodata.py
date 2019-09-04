@@ -132,6 +132,7 @@ def main_func(user_input: str) -> dict:
         article_json['thumbnail'] = article_infos.get('thumbnail', "/static/img/wiki_logo.jpg")
 
         # All steps have been completed successfully, we change the "bad" answer to "good"
+        # We add the address found in the answer for a more dynamic response
         if not any(article_json) is None:
             article_json['bot_response'] = random.choice(PAPYBOT_GOOD_ANSWERS).format(article_json['address'])
 

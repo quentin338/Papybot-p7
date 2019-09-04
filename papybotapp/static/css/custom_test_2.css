@@ -1,7 +1,9 @@
 #header {
     position: relative;
-    height: 22vh;
+    height: 100%;
     background-color: #86989B;
+    border-bottom-left-radius: 15%;
+    border-bottom-right-radius: 15%;
 }
 
 #img-logo {
@@ -9,8 +11,24 @@
     border-radius: 15%;
 }
 
+#header-logo {
+    width: 20%;
+    margin: auto;
+    max-height: 100%;
+}
+
+#header-h1 {
+    width: 50%;
+}
+
 #h1 {
-    text-align: center;
+    /*text-align: center;*/
+}
+
+#footer {
+    background-color: #86989B;
+    border-top-left-radius: 15%;
+    border-top-right-radius: 15%;
 }
 
 #alert-msg {
@@ -25,10 +43,6 @@
 
 #input {
     resize: none;
-}
-
-#buttons {
-    margin: auto;
 }
 
 .buttons-h {
@@ -55,10 +69,6 @@
     width: 100%;
     height: 100%;
 }
-
-/*.map-hide {*/
-/*    display: none;*/
-/*}*/
 
 .wiki-results {
     overflow: auto;
