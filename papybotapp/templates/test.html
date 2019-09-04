@@ -33,12 +33,12 @@
     <div id="query-menu" class="container query-menu-h">
       <div class="row">
 
-        <div class="col-md-8 form-group query-menu-h">
+        <div class="col-md-8 form-group">
           <label class="sr-only" for="input">Demandez un renseignement à Papybot ici</label>
-          <textarea class="form-control z-depth-1 query-menu-h" id="input" rows="3" placeholder="Votre recherche ici..."></textarea>
+          <textarea class="form-control z-depth-1" id="input" rows="3" placeholder="Votre recherche ici..."></textarea>
         </div>
 
-        <div id="buttons" class="col-md-4 query-menu-h m-auto">
+        <div id="buttons" class="col-md-4">
           <div class="row">
             <button id="btn-new-search" type="button" class="col-sm-12 btn btn-success buttons-h">Raconte-moi Papybot !</button>
           </div>
@@ -53,11 +53,9 @@
       </div>
 
       <div id="results" class="row d-none mb-4">
-        <div class="col-md-8 wiki-results">
-          <div id="wiki-results"></div>
-        </div>
-        <div class="col-md-4 map">
-          <div id="map"></div>
+        <div id ="wiki-results" class="col-md-8 wiki-results"></div>
+        <div id="map" class="col-md-4 map">
+<!--          <div id="map"></div>-->
         </div>
       </div>
 
