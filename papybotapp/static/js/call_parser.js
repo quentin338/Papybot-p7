@@ -203,7 +203,6 @@ $('#btn-save-search').click(function() {
 
 // Function to check if any element of an Array is null
 let isResponseBad = function(element) {
-    console.log(element);
     return element === null;
 };
 
