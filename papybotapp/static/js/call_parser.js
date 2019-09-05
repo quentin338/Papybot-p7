@@ -15,6 +15,7 @@ function ajaxPost(url, data, callback) {
     req.send(data);
 }
 
+// Official GoogleMaps init
 function initMap(lat, lng) {
     let needToDisplayMap = true;
 
@@ -46,6 +47,8 @@ function initMap(lat, lng) {
     }
   }
 
+// Delete metadata to avoid registering 1 research twice
+// We can save the same card if the same search has been done twice obv
 function deleteMetaData(element) {
     element.removeAttr('data-format-address');
     element.removeAttr('data-wiki-url');
@@ -208,16 +211,18 @@ let isResponseBad = function(element) {
 
 // "Raconte-moi Papybot !" (search) button
 $('#btn-new-search').click(function() {
+    let bodyElt = $('body');
     let alertBtn = $('#alert-msg');
     let userInput = $('#input').val();
-    $('body').css('cursor', 'wait');
+    bodyElt.css('cursor', 'wait');
 
     if (userInput === '') {
         alertDisplay(alertBtn, "Papybot n'a pas entendu votre question.", "alert-warning");
+        bodyElt.css('cursor', 'default')
     } else {
         ajaxPost("/parser", userInput, function(response) {
             response = JSON.parse(response);
-            $('body').css('cursor', 'default');
+            bodyElt.css('cursor', 'default');
 
             // If all values in the response are good, we can display it to the user
             if (Object.values(response).some(isResponseBad) === false) {
@@ -225,13 +230,14 @@ $('#btn-new-search').click(function() {
                 deleteSearch();
 
                 // Papybot conversation
-                alertDisplay(alertBtn, `PAPYBOT : ${response.bot_response}`, "alert-success", 10000);
+                alertDisplay(alertBtn, `PAPYBOT : ${response.bot_response}`, "alert-success", 8000);
 
                 // Displaying result in #results
                 displayResult(response);
             } else {
+                // No results from either Wiki or GoogleMaps
                 alertDisplay(alertBtn, `PAPYBOT : ${response.bot_response}`,
-                    "alert-danger", 10000);
+                    "alert-danger", 5000);
             }
         })
     }

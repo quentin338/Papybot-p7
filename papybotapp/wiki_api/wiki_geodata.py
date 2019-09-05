@@ -2,7 +2,6 @@ import requests
 import logging
 import random
 from typing import Union
-import pprint as pp
 
 from papybotapp.google_maps import get_address_coordinates
 from papybotapp.input_parser.string_parser import clean
@@ -96,10 +95,10 @@ def get_article_infos(page_id: int) -> dict:
 def main_func(user_input: str) -> dict:
     """
     Uses custom parser to clean user_input, Geocode API to find coordinates of it, look for a page on wikipedia
-    to find an article related to these coords and get first block of content of it.
+    to find an article related to these coords and get the url, content, thumbnail and a bot response.
 
     :param user_input: the question/address entered by the user.
-    :return: dict containing: coordinates, address, wiki page url, wiki content and bot random sentence.
+    :return: {coordinates, address, wiki page url, wiki content, wiki thumbnail, bot random sentence.}
 
     """
     article_json = {
@@ -143,6 +142,4 @@ def main_func(user_input: str) -> dict:
 
 
 if __name__ == '__main__':
-    # pprint(main_func(examples[4]), width=200)
     infos = get_article_infos(465230)
-    pp.pprint(infos)
