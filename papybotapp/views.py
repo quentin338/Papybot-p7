@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("test.html", api_key=os.getenv("API_KEY_FRONT"))
+    return render_template("index.html", api_key=os.getenv("API_KEY_FRONT"))
 
 
 @app.route('/parser', methods=["POST"])
