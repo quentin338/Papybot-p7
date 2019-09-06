@@ -1,2 +1,2 @@
-web: gunicorn papybot-p7:app
+web: gunicorn papybotapp:app
 init: FLASK_APP=run.py
