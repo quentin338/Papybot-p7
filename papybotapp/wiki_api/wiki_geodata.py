@@ -10,6 +10,8 @@ from papybotapp.papybot_answers import PAPYBOT_GOOD_ANSWERS, PAPYBOT_BAD_ANSWERS
 
 API_URL = "https://fr.wikipedia.org/w/api.php"
 SEARCH_RADIUS = 10000  # In meters. Radius around the given point
+BOT_ANSWER_IF_API_UNREACHABLE = "Zut ! Il y a des travaux dehors, je n'entends rien, reposes moi ta question " \
+                                "dans 5 minutes."
 
 logging.basicConfig(level=logging.WARNING)
 
@@ -137,6 +139,10 @@ def main_func(user_input: str) -> dict:
 
     except KeyError as e:
         logging.debug(e)
+    # We can't connect to Wiki or Google. We pass a specific message as we can't do much
+    except requests.exceptions.ConnectionError as e:
+        logging.debug(e)
+        article_json['bot_response'] = BOT_ANSWER_IF_API_UNREACHABLE
 
     return article_json
 
