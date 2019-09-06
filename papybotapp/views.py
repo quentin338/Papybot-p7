@@ -15,7 +15,7 @@ def index():
 @app.route('/parser', methods=["POST"])
 def parser():
     if request.method == "POST":
-        results = main_func(str(request.data))
+        results = main_func(request.data.decode())
 
         return jsonify(results)
 
