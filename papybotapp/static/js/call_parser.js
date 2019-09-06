@@ -164,7 +164,7 @@ function createCard(formatAddress, wikiContent, wikiUrl, wikiThumbnail) {
 
     cardMapsLinkElt.classList.add("btn", "btn-primary", "google-maps-search");
     cardMapsLinkElt.href = `https://www.google.com/maps/search/?api=1&query=${formatAddress}`;
-    cardWikiLinkElt.setAttribute("target", "_blank");
+    cardMapsLinkElt.setAttribute("target", "_blank");
     cardMapsLinkElt.text = "Lien GoogleMaps";
 
     // Inserting the card at the top of the other cards if any
