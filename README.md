@@ -8,13 +8,13 @@ ___
 - pip install -r requirements.txt
 - Modify .env with your 2 API Keys
     - Backend key is geocoord (unlimited use)
-    - Frontend key is GoogleMaps (limited to url)
+    - Frontend key is GoogleMaps (should be limited to url)
     - Be careful to not pay for it :)
 - python run.py
 - open http://127.0.0.1:5000/ in your browser
 
 ### Trello
-http://trello.com
+https://trello.com/b/3Rjn6PQT/papybot-p7
 
 ___
 **Based on French user inputs !**
