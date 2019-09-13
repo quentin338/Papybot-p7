@@ -1,6 +1,6 @@
-#Papybot-p7
+# Papybot-p7
 ___
-####OC P7. Grampy Bot !
+#### OC P7. Grampy Bot !
 *Python 3.7+*
 
 ### How to launch
