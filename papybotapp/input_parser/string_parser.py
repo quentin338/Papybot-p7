@@ -106,15 +106,17 @@ def clean(user_input: str):
 
 
 if __name__ == '__main__':
-    examples = ["Salut ! Je ne sais pas vous mais je veux tout connaître du Stade de France à Paris !",
-                "1, avenue du Général Leclerc à Bordeaux",
-                "Salut GrandPy ! Est-ce que tu connais l'adresse d'OpenClassrooms ?",
-                "Bonjour je veux savoir l'adresse du 13 rue des Bisounours à Paris, merci Papybot.",
-                "Salut grandpy! Comment s'est passé ta soirée avec Madame Pahud hier soir? "
-                "Au fait, pendant que j'y pense,"
-                " pourrais-tu m'indiquer où se trouve le musée d'art et d'histoire de Fribourg, s'il te plaît ?",
-                "le 12 rue du Pigeon, tu connais ?", "où se situe l'adresse du Magasin de chaussures "
-                "à Pouet-les-Bains ?", "où est la rue chaudron 54 ?", "Tour Eiffel"]
+    examples = [
+        "Salut ! Je ne sais pas vous mais je veux tout connaître du Stade de France à Paris !",
+        "1, avenue du Général Leclerc à Bordeaux",
+        "Salut GrandPy ! Est-ce que tu connais l'adresse d'OpenClassrooms ?",
+        "Bonjour je veux savoir l'adresse du 13 rue des Bisounours à Paris, merci Papybot.",
+        "Salut grandpy! Comment s'est passé ta soirée avec Madame Pahud hier soir? "
+        "Au fait, pendant que j'y pense,"
+        " pourrais-tu m'indiquer où se trouve le musée d'art et d'histoire de Fribourg, s'il te plaît ?",
+        "le 12 rue du Pigeon, tu connais ?", "où se situe l'adresse du Magasin de chaussures "
+        "à Pouet-les-Bains ?", "où est la rue chaudron 54 ?", "Tour Eiffel"
+    ]
 
     for example in examples:
         print(clean(example))
